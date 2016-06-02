@@ -101,6 +101,7 @@ public:
     ret = rcl_shutdown();
     EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string_safe();
   }
+
   template<typename MessageT>
   void test_message_type(const char * topic_name, const rosidl_message_type_support_t * ts)
   {
@@ -299,7 +300,6 @@ TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_primitives) {
     test_communication, msg, Primitives);
   test_message_type<test_communication__msg__Primitives>("test_primitives", ts);
 }
-
 
 template<>
 size_t get_message_num(test_communication__msg__Nested * msg)
