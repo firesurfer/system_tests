@@ -179,7 +179,6 @@ void fini_message(MessageT * msg);
     TYPE ## __fini(msg); \
   }
 
-
 // Test publish/subscribe with a variety of messages
 
 // Define functions and test cases for each message type
@@ -259,15 +258,15 @@ void get_message(test_communication__msg__Primitives * msg, size_t msg_num)
       msg->uint64_value = 1;
       // check strings longer then 255 characters
       // TODO(mikaelarguedas) use 256 once fastrtps c typesupport supports it
-      char string_value[100] = {};
-      for (size_t i = 0; i < 100; i++) {
+      char string_value[101] = {};
+      for (size_t i = 0; i < 101; i++) {
         string_value[i] = '0' + (i % 10);
       }
       rosidl_generator_c__String__assign(&msg->string_value, string_value);
-      for (size_t i = 0; i < 100; i++) {  //      printf("%s\n", msg->string_value.data);
-        printf("%d,", msg->string_value.data[i]);
-      }
-      printf("\n");
+      // for (size_t i = 0; i < 101; i++) {  //      printf("%s\n", msg->string_value.data);
+      //   printf("%d,", msg->string_value.data[i]);
+      // }
+      // printf("\n");
       break;
   }
 }
@@ -446,6 +445,7 @@ void verify_message(test_communication__msg__StaticArrayPrimitives & message, si
     EXPECT_EQ(0, strcmp(expected_msg.string_values[i].data,
       message.string_values[i].data));
   }
+  return messages;
 }
 
 DEFINE_FINI_MESSAGE(test_communication__msg__StaticArrayPrimitives);
@@ -775,7 +775,7 @@ void get_message(test_communication__msg__DynamicArrayNested * msg, size_t msg_n
   const size_t size = get_message_num(&submsg);
   test_communication__msg__DynamicArrayNested__init(msg);
   test_communication__msg__Primitives__Array__init(&msg->primitive_values, size);
-  switch(msg_num) {
+  switch (msg_num) {
     case 0:
       for (size_t i = 0; i < size; ++i) {
         get_message(&msg->primitive_values.data[i], i);
