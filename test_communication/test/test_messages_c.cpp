@@ -101,7 +101,6 @@ public:
     ret = rcl_shutdown();
     EXPECT_EQ(RCL_RET_OK, ret) << rcl_get_error_string_safe();
   }
-
   template<typename MessageT>
   void test_message_type(const char * topic_name, const rosidl_message_type_support_t * ts)
   {
@@ -445,7 +444,6 @@ void verify_message(test_communication__msg__StaticArrayPrimitives & message, si
     EXPECT_EQ(0, strcmp(expected_msg.string_values[i].data,
       message.string_values[i].data));
   }
-  return messages;
 }
 
 DEFINE_FINI_MESSAGE(test_communication__msg__StaticArrayPrimitives);
