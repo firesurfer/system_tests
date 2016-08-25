@@ -18,15 +18,15 @@ import os
 import sys
 import time
 
-import rclpy
-from rclpy.qos import qos_profile_default
-from rclpy.impl.rmw_implementation_tools import select_rmw_implementation
-from rclpy.impl.rmw_implementation_tools import get_rmw_implementations
 # this is needed to allow import of test_communication messages
 sys.path.insert(0, os.getcwd())
 
 
 def talker(message_name, number_of_cycles):
+    import rclpy
+    from rclpy.qos import qos_profile_default
+    from rclpy.impl.rmw_implementation_tools import select_rmw_implementation
+    from rclpy.impl.rmw_implementation_tools import get_rmw_implementations
     from message_fixtures import get_test_msg
 
     message_pkg = 'test_communication'
