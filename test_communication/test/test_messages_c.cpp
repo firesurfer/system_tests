@@ -265,7 +265,7 @@ void get_message(test_communication__msg__Primitives * msg, size_t msg_num)
       }
       rosidl_generator_c__String__assign(&msg->string_value, string_value);
       // for (size_t i = 0; i < 101; i++) {  //      printf("%s\n", msg->string_value.data);
-      //   printf("%d,", msg->string_value.data[i]);
+      //   printf("%c,", msg->string_value.data[i]);
       // }
       // printf("\n");
       break;
@@ -1039,9 +1039,9 @@ void verify_message(test_communication__msg__BoundedArrayNested & message, size_
 }
 
 DEFINE_FINI_MESSAGE(test_communication__msg__BoundedArrayNested);
-TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_boundedarraynested) {
-  const rosidl_message_type_support_t * ts = ROSIDL_GET_TYPE_SUPPORT(
-    test_communication, msg, BoundedArrayNested);
-  test_message_type<test_communication__msg__BoundedArrayNested>("test_boundedarraynested",
-    ts);
-}
+// TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_boundedarraynested) {
+//   const rosidl_message_type_support_t * ts = ROSIDL_GET_TYPE_SUPPORT(
+//     test_communication, msg, BoundedArrayNested);
+//   test_message_type<test_communication__msg__BoundedArrayNested>("test_boundedarraynested",
+//     ts);
+// }
