@@ -26,6 +26,8 @@
 
 #include "rcl/rcl.h"
 
+#include "test_communication/msg/bounded_array_nested.h"
+#include "test_communication/msg/bounded_array_primitives.h"
 #include "test_communication/msg/dynamic_array_nested.h"
 #include "test_communication/msg/dynamic_array_primitives.h"
 #include "test_communication/msg/empty.h"
@@ -289,7 +291,7 @@ void verify_message(test_communication__msg__Primitives & message, size_t msg_nu
   EXPECT_EQ(expected_msg.int64_value, message.int64_value);
   EXPECT_EQ(expected_msg.uint64_value, message.uint64_value);
   EXPECT_EQ(0, strcmp(expected_msg.string_value.data, message.string_value.data));
-  //printf("%s\n", expected_msg.string_value.data);
+  // printf("%s\n", expected_msg.string_value.data);
 }
 
 DEFINE_FINI_MESSAGE(test_communication__msg__Primitives);
@@ -472,52 +474,24 @@ void get_message(test_communication__msg__StaticArrayNested * msg, size_t msg_nu
   }
 }
 
- template<>
- void verify_message(test_communication__msg__StaticArrayNested & message, size_t msg_num)
+template<>
+void verify_message(test_communication__msg__StaticArrayNested & message, size_t msg_num)
 {
-   test_communication__msg__StaticArrayNested expected_msg;
-   get_message(&expected_msg, msg_num);
-   for (size_t i = 0; i < 4; ++i) {
-     verify_message(message.primitive_values[i], i);
-//      EXPECT_EQ(expected_msg.primitive_values[i].bool_value,
-//        message.primitive_values[i].bool_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].byte_value,
-//        message.primitive_values[i].byte_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].char_value,
-//        message.primitive_values[i].char_value);
-//      EXPECT_FLOAT_EQ(expected_msg.primitive_values[i].float32_value,
-//        message.primitive_values[i].float32_value);
-//      EXPECT_DOUBLE_EQ(expected_msg.primitive_values[i].float64_value,
-//        message.primitive_values[i].float64_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].int8_value,
-//        message.primitive_values[i].int8_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].uint8_value,
-//        message.primitive_values[i].uint8_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].int16_value,
-//        message.primitive_values[i].int16_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].uint16_value,
-//        message.primitive_values[i].uint16_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].int32_value,
-//        message.primitive_values[i].int32_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].uint32_value,
-//        message.primitive_values[i].uint32_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].int64_value,
-//        message.primitive_values[i].int64_value);
-//      EXPECT_EQ(expected_msg.primitive_values[i].uint64_value,
-//        message.primitive_values[i].uint64_value);
-//      EXPECT_EQ(0, strcmp(message.primitive_values[i].string_value.data,
-//        expected_msg.primitive_values[i].string_value.data));
-     printf("%s\n", message.primitive_values[i].string_value.data);
+  test_communication__msg__StaticArrayNested expected_msg;
+  get_message(&expected_msg, msg_num);
+  for (size_t i = 0; i < 4; ++i) {
+    verify_message(message.primitive_values[i], i);
+    printf("%s\n", message.primitive_values[i].string_value.data);
   }
 }
 
 DEFINE_FINI_MESSAGE(test_communication__msg__StaticArrayNested);
-TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_staticarraynested) {
-  const rosidl_message_type_support_t * ts = ROSIDL_GET_TYPE_SUPPORT(
-    test_communication, msg, StaticArrayNested);
-  test_message_type<test_communication__msg__StaticArrayNested>("test_staticarraynested",
-    ts);
-}
+// TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_staticarraynested) {
+//   const rosidl_message_type_support_t * ts = ROSIDL_GET_TYPE_SUPPORT(
+//     test_communication, msg, StaticArrayNested);
+//   test_message_type<test_communication__msg__StaticArrayNested>("test_staticarraynested",
+//     ts);
+// }
 
 template<>
 size_t get_message_num(test_communication__msg__DynamicArrayPrimitives * msg)
@@ -530,7 +504,7 @@ void get_message(test_communication__msg__DynamicArrayPrimitives * msg, size_t m
 {
   test_communication__msg__DynamicArrayPrimitives__init(msg);
   const size_t size = 20;
-  switch(msg_num){
+  switch (msg_num) {
     case 0:
       rosidl_generator_c__bool__Array__init(&msg->bool_values, 0);
       rosidl_generator_c__byte__Array__init(&msg->byte_values, 0);
@@ -831,5 +805,243 @@ TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_dynamicarraynest
   const rosidl_message_type_support_t * ts = ROSIDL_GET_TYPE_SUPPORT(
     test_communication, msg, DynamicArrayNested);
   test_message_type<test_communication__msg__DynamicArrayNested>("test_dynamicarraynested",
+    ts);
+}
+
+
+template<>
+size_t get_message_num(test_communication__msg__BoundedArrayPrimitives * msg)
+{
+  return 5;
+}
+
+template<>
+void get_message(test_communication__msg__BoundedArrayPrimitives * msg, size_t msg_num)
+{
+  test_communication__msg__BoundedArrayPrimitives__init(msg);
+  const size_t size = 20;
+  switch (msg_num) {
+    case 0:
+      rosidl_generator_c__bool__Array__init(&msg->bool_values, 3);
+      rosidl_generator_c__byte__Array__init(&msg->byte_values, 3);
+      rosidl_generator_c__char__Array__init(&msg->char_values, 3);
+      rosidl_generator_c__float32__Array__init(&msg->float32_values, 3);
+      rosidl_generator_c__float64__Array__init(&msg->float64_values, 3);
+      rosidl_generator_c__int8__Array__init(&msg->int8_values, 3);
+      rosidl_generator_c__uint8__Array__init(&msg->uint8_values, 2);
+      rosidl_generator_c__int16__Array__init(&msg->int16_values, 3);
+      rosidl_generator_c__uint16__Array__init(&msg->uint16_values, 3);
+      rosidl_generator_c__int32__Array__init(&msg->int32_values, 3);
+      rosidl_generator_c__uint32__Array__init(&msg->uint32_values, 3);
+      rosidl_generator_c__int64__Array__init(&msg->int64_values, 3);
+      rosidl_generator_c__uint64__Array__init(&msg->uint64_values, 3);
+      rosidl_generator_c__String__Array__init(&msg->string_values, 3);
+
+      msg->bool_values.data[0] = false;
+      msg->bool_values.data[1] = true;
+      msg->bool_values.data[2] = false;
+      msg->byte_values.data[0] = 0x00;
+      msg->byte_values.data[1] = 0x01;
+      msg->byte_values.data[2] = 0xff;
+      msg->char_values.data[0] = '\0';
+      msg->char_values.data[1] = '\1';
+      msg->char_values.data[2] = '\255';
+      msg->float32_values.data[0] = 0.0f;
+      msg->float32_values.data[1] = 1.125f;
+      msg->float32_values.data[2] = -2.125f;
+      msg->float64_values.data[0] = 0;
+      msg->float64_values.data[1] = 1.125;
+      msg->float64_values.data[2] = -2.125;
+      msg->int8_values.data[0] = 0;
+      msg->int8_values.data[1] = (std::numeric_limits<int8_t>::max)();
+      msg->int8_values.data[2] = (std::numeric_limits<int8_t>::min)();
+      msg->uint8_values.data[0] = 0;
+      msg->uint8_values.data[1] = 1;
+      msg->uint8_values.data[2] = (std::numeric_limits<uint8_t>::max)();
+      msg->int16_values.data[0] = 0;
+      msg->int16_values.data[1] = (std::numeric_limits<int16_t>::max)();
+      msg->int16_values.data[2] = (std::numeric_limits<int16_t>::min)();
+      msg->uint16_values.data[0] = 0;
+      msg->uint16_values.data[1] = 1;
+      msg->uint16_values.data[2] = (std::numeric_limits<uint16_t>::max)();
+      msg->int32_values.data[0] = 0;
+      msg->int32_values.data[1] = (std::numeric_limits<int32_t>::max)();
+      msg->int32_values.data[2] = (std::numeric_limits<int32_t>::min)();
+      msg->uint32_values.data[0] = 0;
+      msg->uint32_values.data[1] = 1;
+      msg->uint32_values.data[2] = (std::numeric_limits<uint32_t>::max)();
+      msg->int64_values.data[0] = 0;
+      msg->int64_values.data[1] = (std::numeric_limits<int64_t>::max)();
+      msg->int64_values.data[2] = (std::numeric_limits<int64_t>::min)();
+      msg->uint64_values.data[0] = 0;
+      msg->uint64_values.data[1] = 1;
+      msg->uint64_values.data[2] = (std::numeric_limits<uint64_t>::max)();
+      rosidl_generator_c__String__assign(&msg->string_values.data[0], "");
+      rosidl_generator_c__String__assign(&msg->string_values.data[1], "max value");
+      rosidl_generator_c__String__assign(&msg->string_values.data[2], "optional min value");
+      msg->check = 2;
+      break;
+    case 1:
+      rosidl_generator_c__bool__Array__init(&msg->bool_values, 0);
+      rosidl_generator_c__byte__Array__init(&msg->byte_values, 0);
+      rosidl_generator_c__char__Array__init(&msg->char_values, 0);
+      rosidl_generator_c__float32__Array__init(&msg->float32_values, 0);
+      rosidl_generator_c__float64__Array__init(&msg->float64_values, 0);
+      rosidl_generator_c__int8__Array__init(&msg->int8_values, 0);
+      rosidl_generator_c__uint8__Array__init(&msg->uint8_values, 0);
+      rosidl_generator_c__int16__Array__init(&msg->int16_values, 0);
+      rosidl_generator_c__uint16__Array__init(&msg->uint16_values, 0);
+      rosidl_generator_c__int32__Array__init(&msg->int32_values, 0);
+      rosidl_generator_c__uint32__Array__init(&msg->uint32_values, 0);
+      rosidl_generator_c__int64__Array__init(&msg->int64_values, 0);
+      rosidl_generator_c__uint64__Array__init(&msg->uint64_values, 0);
+      rosidl_generator_c__String__Array__init(&msg->string_values, 0);
+      msg->check = 4;
+      break;
+  }
+}
+
+template<>
+void verify_message(test_communication__msg__BoundedArrayPrimitives & message, size_t msg_num)
+{
+  test_communication__msg__BoundedArrayPrimitives expected_msg;
+  get_message(&expected_msg, msg_num);
+  for (size_t i = 0; i < expected_msg.bool_values.size; ++i) {
+    EXPECT_EQ(expected_msg.bool_values.data[i],
+      message.bool_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.byte_values.size; ++i) {
+    EXPECT_EQ(expected_msg.byte_values.data[i],
+      message.byte_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.char_values.size; ++i) {
+    EXPECT_EQ(expected_msg.char_values.data[i],
+      message.char_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.float32_values.size; ++i) {
+    EXPECT_FLOAT_EQ(expected_msg.float32_values.data[i],
+      message.float32_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.float64_values.size; ++i) {
+    EXPECT_DOUBLE_EQ(expected_msg.float64_values.data[i],
+      message.float64_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.int8_values.size; ++i) {
+    EXPECT_EQ(expected_msg.int8_values.data[i],
+      message.int8_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.uint8_values.size; ++i) {
+    EXPECT_EQ(expected_msg.uint8_values.data[i],
+      message.uint8_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.int16_values.size; ++i) {
+    EXPECT_EQ(expected_msg.int16_values.data[i],
+      message.int16_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.uint16_values.size; ++i) {
+    EXPECT_EQ(expected_msg.uint16_values.data[i],
+      message.uint16_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.int32_values.size; ++i) {
+    EXPECT_EQ(expected_msg.int32_values.data[i],
+      message.int32_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.uint32_values.size; ++i) {
+    EXPECT_EQ(expected_msg.uint32_values.data[i],
+      message.uint32_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.int64_values.size; ++i) {
+    EXPECT_EQ(expected_msg.int64_values.data[i],
+      message.int64_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.uint64_values.size; ++i) {
+    EXPECT_EQ(expected_msg.uint64_values.data[i],
+      message.uint64_values.data[i]);
+  }
+  for (size_t i = 0; i < expected_msg.string_values.size; ++i) {
+    EXPECT_EQ(0, strcmp(message.string_values.data[i].data,
+      expected_msg.string_values.data[i].data));
+  }
+}
+
+DEFINE_FINI_MESSAGE(test_communication__msg__BoundedArrayPrimitives);
+TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_boundedarrayprimitives) {
+  const rosidl_message_type_support_t * ts = ROSIDL_GET_TYPE_SUPPORT(
+    test_communication, msg, BoundedArrayPrimitives);
+  test_message_type<test_communication__msg__BoundedArrayPrimitives>("test_boundedarrayprimitives",
+    ts);
+}
+
+template<>
+size_t get_message_num(test_communication__msg__BoundedArrayNested * msg)
+{
+  return 1;
+}
+
+template<>
+void get_message(test_communication__msg__BoundedArrayNested * msg, size_t msg_num)
+{
+  test_communication__msg__Primitives submsg;
+  const size_t size = get_message_num(&submsg);
+  test_communication__msg__BoundedArrayNested__init(msg);
+  test_communication__msg__Primitives__Array__init(&msg->primitive_values, size);
+  switch (msg_num) {
+    case 0:
+      for (size_t i = 0; i < size; ++i) {
+        get_message(&msg->primitive_values.data[i], i);
+      }
+      break;
+  }
+}
+
+template<>
+void verify_message(test_communication__msg__BoundedArrayNested & message, size_t msg_num)
+{
+  test_communication__msg__BoundedArrayNested expected_msg;
+  get_message(&expected_msg, msg_num);
+//   switch(msg_num) {
+//     case 0:
+//       for (size_t i = 0; i < message.primitive_values.size; ++i) {
+//         verify_message(message.primitive_values.data[i], i);
+//       }
+//       break;
+//   }
+  for (size_t i = 0; i < expected_msg.primitive_values.size; ++i) {
+    EXPECT_EQ(expected_msg.primitive_values.data[i].bool_value,
+      message.primitive_values.data[i].bool_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].byte_value,
+      message.primitive_values.data[i].byte_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].char_value,
+      message.primitive_values.data[i].char_value);
+    EXPECT_FLOAT_EQ(expected_msg.primitive_values.data[i].float32_value,
+      message.primitive_values.data[i].float32_value);
+    EXPECT_DOUBLE_EQ(expected_msg.primitive_values.data[i].float64_value,
+      message.primitive_values.data[i].float64_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].int8_value,
+      message.primitive_values.data[i].int8_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].uint8_value,
+      message.primitive_values.data[i].uint8_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].int16_value,
+      message.primitive_values.data[i].int16_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].uint16_value,
+      message.primitive_values.data[i].uint16_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].int32_value,
+      message.primitive_values.data[i].int32_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].uint32_value,
+      message.primitive_values.data[i].uint32_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].int64_value,
+      message.primitive_values.data[i].int64_value);
+    EXPECT_EQ(expected_msg.primitive_values.data[i].uint64_value,
+      message.primitive_values.data[i].uint64_value);
+    EXPECT_EQ(0, strcmp(message.primitive_values.data[i].string_value.data,
+      expected_msg.primitive_values.data[i].string_value.data));
+  }
+}
+
+DEFINE_FINI_MESSAGE(test_communication__msg__BoundedArrayNested);
+TEST_F(CLASSNAME(TestMessagesFixture, RMW_IMPLEMENTATION), test_boundedarraynested) {
+  const rosidl_message_type_support_t * ts = ROSIDL_GET_TYPE_SUPPORT(
+    test_communication, msg, BoundedArrayNested);
+  test_message_type<test_communication__msg__BoundedArrayNested>("test_boundedarraynested",
     ts);
 }
