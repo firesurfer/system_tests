@@ -100,15 +100,16 @@ def get_msg_primitives():
     msg.char_value = '\x01'
     msg.float32_value = float(1.0)
     msg.float64_value = float(1.0)
-    msg.int8_value = int(1)
-    msg.uint8_value = int(1)
-    msg.int16_value = int(1)
-    msg.uint16_value = int(1)
-    msg.int32_value = int(1)
-    msg.uint32_value = int(1)
-    msg.int64_value = int(1)
-    msg.uint64_value = int(1)
+    msg.int8_value = 1
+    msg.uint8_value = 1
+    msg.int16_value = 1
+    msg.uint16_value = 1
+    msg.int32_value = 1
+    msg.uint32_value = 1
+    msg.int64_value = 1
+    msg.uint64_value = 1
     msg.string_value = ''
+    # check strings longer then 255 characters
     for i in range(256):
         msg.string_value += str(i % 10)
     msgs.append(msg)
@@ -194,7 +195,7 @@ def get_msg_dynamic_array_primitives():
     msg = DynamicArrayPrimitives()
     msg.bool_values = [True]
     msg.byte_values = [bytes([255])]
-    msg.char_values = [chr(0x7f)]
+    msg.char_values = ['\x7f']
     msg.float32_values = [1.125]
     msg.float64_values = [1.125]
     msg.int8_values = [127]
@@ -212,7 +213,7 @@ def get_msg_dynamic_array_primitives():
     msg = DynamicArrayPrimitives()
     msg.bool_values = [False, True]
     msg.byte_values = [bytes([0]), bytes([255])]
-    msg.char_values = [chr(0), chr(127)]
+    msg.char_values = ['\0', '\x7f']
     msg.float32_values = [0.0, 1.125, -2.125]
     msg.float64_values = [0.0, 1.125, -2.125]
     msg.int8_values = [0, 127, -128]
@@ -267,7 +268,7 @@ def get_msg_bounded_array_primitives():
     msg = BoundedArrayPrimitives()
     msg.bool_values = [False, True, False]
     msg.byte_values = [bytes([0]), bytes([1]), bytes([255])]
-    msg.char_values = [chr(0), chr(1), chr(127)]
+    msg.char_values = ['\0', '\1', '\x7f']
     msg.float32_values = [0.0, 1.125, -2.125]
     msg.float64_values = [0.0, 1.125, -2.125]
     msg.int8_values = [0, 127, -128]

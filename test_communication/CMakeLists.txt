@@ -137,6 +137,7 @@ if(BUILD_TESTING)
       # TODO(dirk-thomas) publishing Bounded/DynamicArrayPrimitives in OpenSplice is buggy
       # https://github.com/ros2/rclcpp/issues/219
       if((NOT TEST_MESSAGE_TYPE STREQUAL "BoundedArrayPrimitives" AND NOT TEST_MESSAGE_TYPE STREQUAL "DynamicArrayPrimitives") OR NOT rmw_implementation1 STREQUAL "rmw_opensplice_cpp")
+        if(NOT ${rmw_implementation1} STREQUAL "rmw_fastrtps_cpp" AND NOT ${rmw_implementation2} STREQUAL "rmw_fastrtps_cpp")
         # if(TEST_MESSAGE_TYPE STREQUAL "Primitives" OR TEST_MESSAGE_TYPE STREQUAL "Nested" OR TEST_MESSAGE_TYPE STREQUAL "BoundedArrayNested")
         ament_add_nose_test(test_publisher_subscriber${test_suffix}
           "${CMAKE_CURRENT_BINARY_DIR}/test_publisher_subscriber${test_suffix}_$<CONFIGURATION>.py"
@@ -150,7 +151,7 @@ if(BUILD_TESTING)
           test_publisher_subscriber${test_suffix}
           PROPERTIES DEPENDS "test_publisher_cpp__${rmw_implementation1};test_subscriber_cpp__${rmw_implementation2}"
         )
-        # endif()
+        endif()
       endif()
     endforeach()
 
@@ -200,7 +201,7 @@ if(BUILD_TESTING)
     set(rcls "")
     # TODO(mikaelarguedas) Aggregate available rcl from ament index ?
     list(APPEND rcls "rclpy")
-    # list(APPEND rcls "rclcpp")
+    list(APPEND rcls "rclcpp")
     foreach(rcl1 ${rcls})
       set(TEST_PUBLISHER_RCL ${rcl1})
       if(rcl1 STREQUAL "rclcpp")
