@@ -154,7 +154,7 @@ def get_msg_static_array_primitives():
     msg.uint32_values = [0, 4294967295, 0]
     msg.int64_values = [0, 9223372036854775807, -9223372036854775808]
     msg.uint64_values = [0, 18446744073709551615, 0]
-    msg.string_values = ['', 'max value', 'min value']
+    msg.string_values = ['', '', '']
     msgs.append(msg)
 
     return msgs
@@ -224,7 +224,7 @@ def get_msg_dynamic_array_primitives():
     msg.uint32_values = [0, 4294967295]
     msg.int64_values = [0, 9223372036854775807, -9223372036854775808]
     msg.uint64_values = [0, 18446744073709551615]
-    msg.string_values = ['', 'max value', 'optional min value']
+    msg.string_values = ['', '', '']
     msg.check = 2
     msgs.append(msg)
 
@@ -279,7 +279,7 @@ def get_msg_bounded_array_primitives():
     msg.uint32_values = [0, 1, 4294967295]
     msg.int64_values = [0, 9223372036854775807, -9223372036854775808]
     msg.uint64_values = [0, 1, 18446744073709551615]
-    msg.string_values = ['', 'max value', 'optional min value']
+    msg.string_values = ['', '', '']
     msg.check = 2
     msgs.append(msg)
 

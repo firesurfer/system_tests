@@ -70,8 +70,8 @@ def listener(message_name, rmw_implementation, number_of_cycles):
 
     spin_count = 1
     print('subscriber: beginning loop')
-    while (rclpy.ok() and spin_count < number_of_cycles and
-           len(received_messages) != len(expected_msgs)):
+    while (rclpy.ok() and spin_count < number_of_cycles):  # and
+           # len(received_messages) != len(expected_msgs)):
         rclpy.spin_once(node)
         spin_count += 1
     rclpy.shutdown()

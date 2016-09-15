@@ -193,8 +193,8 @@ if(BUILD_TESTING)
     set(TEST_SUBSCRIBER_PY_EXECUTABLE "${CMAKE_CURRENT_SOURCE_DIR}/test/subscriber_py.py")
     # TODO(mikaelarguedas) edit this once typesupport_introspection_c merged in fastrtps
     # TODO(mikaelarguedas) edit this once connext_dynamic working with all message types
-    # if(NOT (rmw_implementation1 STREQUAL "rmw_fastrtps_cpp" OR rmw_implementation1 STREQUAL "rmw_connext_dynamic_cpp"))
-    if(NOT (rmw_implementation1 STREQUAL "rmw_connext_dynamic_cpp"))
+    # if(rmw_implementation1 STREQUAL "rmw_fastrtps_cpp" OR rmw_implementation1 STREQUAL "rmw_connext_dynamic_cpp")
+    if(rmw_implementation1 STREQUAL "rmw_connext_dynamic_cpp")
       get_rmw_typesupport(typesupport_c_impl "${rmw_implementation1}" LANGUAGE "c")
       set(TEST_RMW_IMPLEMENTATION_PY "${rmw_implementation1}")
       if(NOT typesupport_c_impl STREQUAL "")
@@ -240,14 +240,14 @@ if(BUILD_TESTING)
   macro(targets)
     get_rclcpp_information("${rmw_implementation}" "rclcpp${target_suffix}")
 
-    # publisher combined with a subscriber
-    custom_test(test_publisher_subscriber_cpp
-      TRUE
-      "test/test_publisher_subscriber.cpp")
-    # subcription valid data
-    custom_test(test_subscription_valid_data_cpp
-      FALSE
-      "test/test_subscription_valid_data.cpp")
+    # # publisher combined with a subscriber
+    # custom_test(test_publisher_subscriber_cpp
+    #   TRUE
+    #   "test/test_publisher_subscriber.cpp")
+    # # subcription valid data
+    # custom_test(test_subscription_valid_data_cpp
+    #   FALSE
+    #   "test/test_subscription_valid_data.cpp")
 
     # executables publisher / subscriber
     custom_executable(test_publisher_cpp
@@ -265,7 +265,7 @@ if(BUILD_TESTING)
 
     foreach(rmw_implementation2 ${rmw_implementations2})
       set(target_suffix2 "__${rmw_implementation2}")
-      multi_targets()
+      # multi_targets()
     endforeach()
     custom_test_py()
   endmacro()
