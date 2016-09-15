@@ -194,7 +194,7 @@ if(BUILD_TESTING)
     # TODO(mikaelarguedas) edit this once typesupport_introspection_c merged in fastrtps
     # TODO(mikaelarguedas) edit this once connext_dynamic working with all message types
     # if(rmw_implementation1 STREQUAL "rmw_fastrtps_cpp" OR rmw_implementation1 STREQUAL "rmw_connext_dynamic_cpp")
-    if(rmw_implementation1 STREQUAL "rmw_connext_dynamic_cpp")
+    # if(rmw_implementation1 STREQUAL "rmw_fastrtps_cpp")
       get_rmw_typesupport(typesupport_c_impl "${rmw_implementation1}" LANGUAGE "c")
       set(TEST_RMW_IMPLEMENTATION_PY "${rmw_implementation1}")
       if(NOT typesupport_c_impl STREQUAL "")
@@ -233,7 +233,7 @@ if(BUILD_TESTING)
               TIMEOUT 15)
           endif()
         endforeach()
-      endif()
+      # endif()
     endif()
   endmacro()
 

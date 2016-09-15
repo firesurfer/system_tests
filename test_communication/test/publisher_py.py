@@ -44,14 +44,15 @@ def talker(message_name, rmw_implementation, number_of_cycles):
     cycle_count = 0
     print('talker: beginning loop')
     msgs = get_test_msg(message_name)
-    while rclpy.ok() and cycle_count < number_of_cycles:
+    while rclpy.ok() and cycle_count < 20:  # number_of_cycles:
         cycle_count += 1
         msg_count = 0
         for msg in msgs:
             chatter_pub.publish(msg)
             msg_count += 1
             print('publishing message #%d' % msg_count)
-            time.sleep(0.1)
+            time.sleep(0.01)
+        print('cycle_count: ' + str(cycle_count))
         time.sleep(1)
     rclpy.shutdown()
 

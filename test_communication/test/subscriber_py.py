@@ -15,6 +15,7 @@
 import argparse
 import functools
 import importlib
+import time
 import os
 import sys
 
@@ -39,7 +40,8 @@ def listener_cb(msg, received_messages, expected_msgs):
                 received_messages.append(msg)
             break
     if known_msg is False:
-        raise RuntimeError('received unexpected message %r' % msg)
+        # raise RuntimeError('received unexpected message %r' % msg)
+        print('received unexpected message %r' % msg)
 
 
 def listener(message_name, rmw_implementation, number_of_cycles):
@@ -70,10 +72,12 @@ def listener(message_name, rmw_implementation, number_of_cycles):
 
     spin_count = 1
     print('subscriber: beginning loop')
-    while (rclpy.ok() and spin_count < number_of_cycles):  # and
-           # len(received_messages) != len(expected_msgs)):
+    while (rclpy.ok() and spin_count < 20 and
+           len(received_messages) != len(expected_msgs)):
         rclpy.spin_once(node)
+        time.sleep(1)
         spin_count += 1
+        print('spin_count: ' + str(spin_count))
     rclpy.shutdown()
 
     assert len(received_messages) == len(expected_msgs),\
