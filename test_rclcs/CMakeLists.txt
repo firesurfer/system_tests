@@ -19,14 +19,11 @@ if(BUILD_TESTING)
    )
    
    set(ENV{MONO_PATH} $ENV{AMENT_PREFIX_PATH}/lib)
+   install(FILES ${CMAKE_BINARY_DIR}/test_rclcs.dll DESTINATION lib)
+   install(FILES ${CMAKE_BINARY_DIR}/nunit.framework.dll DESTINATION lib)
    
-   add_custom_target(run_test_rclcs ALL
-	COMMAND 
-	mono ${CMAKE_CURRENT_SOURCE_DIR}/src/nunit/bin/nunit3-console.exe ${CMAKE_BINARY_DIR}/test_rclcs.dll /framework:mono-4.5
-	WORKING_DIRECTORY
-	$ENV{AMENT_PREFIX_PATH}/lib
-   )
-   add_dependencies(run_test_rclcs test_rclcs_dll)
+  install(CODE "set(PROJECT_DIR_PATH \"${CMAKE_SOURCE_DIR}\")")
+  install(SCRIPT "${CMAKE_SOURCE_DIR}/PostInstall.cmake")
   endif()
 
 endif(BUILD_TESTING)
