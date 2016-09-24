@@ -14,10 +14,12 @@ namespace test_rclcs
 			using (RCL rcl = new RCL ()) 
 			{
 				Assert.IsNotNull (rcl);
-
-				Action<string[]> init_delegate = new Action<string[]> (rcl.Init);
-				Assert.DoesNotThrow (() => init_delegate(new string[]{}));
-				Assert.Throws<ArgumentNullException> (() => init_delegate (null));
+				if (!rcl.IsInit) {
+					Action<string[]> init_delegate = new Action<string[]> (rcl.Init);
+					Assert.DoesNotThrow (() => init_delegate (new string[]{ }));
+					Assert.IsTrue (rcl.IsInit);
+					Assert.Throws<ArgumentNullException> (() => init_delegate (null));
+				}
 			}
 		
 		}
@@ -26,11 +28,11 @@ namespace test_rclcs
 		{
 
 			RCL rcl = new RCL ();
-
-			Action<string[]> init_delegate = new Action<string[]> (rcl.Init);
-			Assert.DoesNotThrow (() => init_delegate(new string[]{}));
-			Assert.Throws<ArgumentNullException> (() => init_delegate (null));
-
+			if (!rcl.IsInit) {
+				Action<string[]> init_delegate = new Action<string[]> (rcl.Init);
+				Assert.DoesNotThrow (() => init_delegate (new string[]{ }));
+				Assert.Throws<ArgumentNullException> (() => init_delegate (null));
+			}
 			rcl.Dispose ();
 
 		}
